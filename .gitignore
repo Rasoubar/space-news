@@ -1,5 +1,5 @@
 #db
-space_news.db
+space-news.db
 *.db
 *.sqlite
 
@@ -9,3 +9,6 @@ __pycache__/
 
 #secret shit
 .env
+
+#virtual environment big
+.venv

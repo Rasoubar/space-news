@@ -1,9 +1,12 @@
 import sqlite3
-import config
+import libsql
+import config as c
 import utils as u
 
 def get_connection():
-    conn = sqlite3.connect(config.db_path)  # Or config.DB_PATH
+    conn = libsql.connect(
+        database = c.TURSO_URL,
+        auth_token = c.TURSO_TOKEN)
     return conn
 
 
