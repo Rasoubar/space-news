@@ -1,0 +1,11 @@
+#db
+space_news.db
+*.db
+*.sqlite
+
+#py cache
+__pycache__/
+*.pyc
+
+#secret shit
+.env

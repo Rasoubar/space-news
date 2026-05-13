@@ -1,0 +1,25 @@
+DONE
+Have made database. .database
+Save article data to DB. .database
+Extract entry data.  .engine
+extract article text. .scrapper
+check if link is new .database
+extract feed data .scrapper
+setup config  .config
+from blob and to blob .engine
+vectorize content. .engine
+#vectorize all at once, dumbo .util
+compare similarity. .engine
+
+TO DO
+
+
+#update some db function to keep connection open
+
+
+
+
+if database gets big, optimize comparison
+test log error on scraper.new_article_list()
+Fix possible crashes on no dates/titles/etc .scrapper.read_rss_entry()
+
