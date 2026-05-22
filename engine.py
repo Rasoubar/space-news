@@ -2,7 +2,7 @@ import config as c
 import scraper as s
 import utils as u
 import time
-import database as db
+import database_write as db
 
 def new_article_list():
     new_articles = []

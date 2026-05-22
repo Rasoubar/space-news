@@ -8,4 +8,3 @@ def test_date():
         for entry in s.feed_extraction(url):
             print(e.read_rss_entry(entry,source)["date_string"])
 
-

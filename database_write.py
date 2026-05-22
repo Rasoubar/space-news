@@ -1,20 +1,13 @@
 import sqlite3
-import libsql
-import config as c
 import utils as u
-
-def get_connection():
-    conn = libsql.connect(
-        database = c.TURSO_URL,
-        auth_token = c.TURSO_TOKEN)
-    return conn
+from database_core import get_connection
 
 
 def setup_db():
     conn = get_connection()
     cursor = conn.cursor()
     #blob because speed and space
-    cursor.execute('''
+    cursor.execute('''  
         CREATE TABLE IF NOT EXISTS articles (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             source TEXT,

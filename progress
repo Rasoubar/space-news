@@ -13,7 +13,7 @@ compare similarity. .engine
 
 TO DO
 
-
+#do vector comparisons in the database
 #update some db function to keep connection open
 
 
