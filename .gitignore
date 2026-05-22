@@ -2,7 +2,8 @@
 space-news.db
 *.db
 *.sqlite
-
+#tests
+tests,py
 #py cache
 __pycache__/
 *.pyc

@@ -1,7 +1,16 @@
 import database_read as db_r
 from fastapi import FastAPI, HTTPException
 
+from fastapi.middleware.cors import CORSMiddleware #for testing
+
 app = FastAPI()
+app.add_middleware( #for testing
+    CORSMiddleware,
+    allow_origins=["*"],      # Allows any local file to send requests
+    allow_credentials=True,
+    allow_methods=["*"],      # Allows all standard methods (GET, POST, etc.)
+    allow_headers=["*"],      # Allows all headers
+)
 
 @app.get("/articles/random")
 def random_article():
@@ -42,4 +51,3 @@ def related_articles(article_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
-    

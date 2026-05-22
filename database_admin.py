@@ -55,6 +55,16 @@ def save_article_entry(article,conn,cursor):
         pass
     return cursor.lastrowid
 
+def new_entries(urls):
+    conn = get_connection()
+    cursor = conn.cursor()
+    placeholders = ",".join(["?"] * len(urls))
+    query = f"SELECT url FROM articles WHERE url IN ({placeholders})"
+    cursor.execute(query, urls)
+    existing_urls = {row[0] for row in cursor.fetchall()}
+    conn.close()
+    new_urls = [url for url in urls if url not in existing_urls]
+    return new_urls
 
 def is_entry_new(url):
     conn = get_connection()

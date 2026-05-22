@@ -2,7 +2,7 @@ import config as c
 import scraper as s
 import utils as u
 import time
-import database_write as db
+import database_admin as db
 
 def new_article_list():
     new_articles = []
@@ -33,10 +33,10 @@ def read_rss_entry(entry,source): #extracts what we need from the rss entry
     }
 
 def entries_to_add():
-    to_add=[]
-    for entry in new_article_list():
-        if db.is_entry_new(entry["link"]):
-            to_add.append(entry)
+    candidates = new_article_list()
+    urls = [entry["link"] for entry in candidates]
+    new_entries = set(db.new_entries(urls))
+    to_add = [entry for entry in candidates if entry["link"] in new_entries]
     return to_add
 
 def add_entries():
@@ -44,22 +44,26 @@ def add_entries():
         print(f'{len(entries)} entries selected')
         if len(entries)>0:
             entries = sorted(entries, key=lambda x: x["date_parsed"])
-            texts=[]
-            for entry in entries:
-                texts.append(entry["text"])
+            texts = [entry["text"] for entry in entries]
             vectors = u.vectorize_texts(texts)
-            new_vectors = []
+            relations = multiple_related_articles(vectors)
             for i in range(len(vectors)):
                 entries[i]['vector'] = vectors[i]
-                entries[i]['related_vectors'], entries[i]['similarities'] = related_articles(vectors[i])
-                new_vectors.append(i)
+                entries[i]['related_vectors'], entries[i]['similarities'] = relations[i][0], relations[i][1]
             last_id = db.save_articles(entries)
             new_article_relations_add(vectors, last_id)
 
 
-
-def related_articles(vector): # takes 1 vector, compares to all DB vectors, returns 1 list with article id, 1 with score. index to match
+def multiple_related_articles(vector_list):
     ids, vectors = db.extract_vectors()
+    relations = []
+    for vector in vector_list:
+        related_ids, scores = related_articles(vector, ids, vectors)
+        relations.append((related_ids,scores))
+    return relations
+
+
+def related_articles(vector,ids,vectors): # takes 1 vector, compares to all DB vectors, returns 1 list with article id, 1 with score. index to match
     sims = u.calc_similarity(vector, vectors)
     t_id_index, t_score = u.closest_vectors(sims)
     id_return = []
@@ -89,7 +93,7 @@ def test_vectors():
     ids, lista = db.extract_vectors()
     for i in range(len(lista)):
         print(ids[i])
-        print(related_articles(lista[i]))
+        print(multiple_related_articles(lista[i]))
 
 #def update_all_vectors(): #used in early stage, move eventually
 #    ids, lista = db.extract_vectors()
@@ -99,6 +103,6 @@ def test_vectors():
 
 
 
-add_entries()
+#add_entries()
 #test_vectors()
 #update_all_vectors()
