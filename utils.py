@@ -5,6 +5,9 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
+from scraper import feed_extraction
+
+
 def log_error(string):
     timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
     with open("error_log.txt", "a", encoding="utf-8") as f:
@@ -45,4 +48,13 @@ def closest_vectors(o_results, t=0.70): #returns 2 lists, 1 with id, 1 with scor
     best_ids = valid_indices[sort_order].tolist()
     best_scores = valid_scores[sort_order].tolist()
     return best_ids, best_scores
+
+def exclude_entertainment(entry): #excludes "entertainment" categories (rn for space.com only)
+    tags = entry.get('tags')
+    if tags and isinstance(tags, list):
+        for tag in tags:
+            term = tag.get('term', '')
+            if term and term.lower().strip() == 'entertainment':
+                return True
+    return False
 

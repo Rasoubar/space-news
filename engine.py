@@ -9,6 +9,9 @@ def new_article_list():
     for source,url in c.feeds.items():
         print("Parsing RSS feed for " + source)
         for entry in s.feed_extraction(url):
+            if source == "Space.com" and u.exclude_entertainment(entry):
+                print(entry)
+                continue
             try:
                 article_data = read_rss_entry(entry, source)
                 if article_data.get('link'):
@@ -103,6 +106,7 @@ def test_vectors():
 
 
 
-#add_entries()
+
+add_entries()
 #test_vectors()
 #update_all_vectors()
