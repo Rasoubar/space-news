@@ -7,7 +7,7 @@ def get_random_recent_article():
     conn = get_connection()
 
     query = """
-        SELECT id, title, url 
+        SELECT id, title, url, summary, source
         FROM articles 
         WHERE date >= ? 
         ORDER BY RANDOM() 
@@ -22,7 +22,9 @@ def get_random_recent_article():
     return {
     "id": article[0],
     "title": article[1],
-    "url": article[2]
+    "url": article[2],
+    "summary": article[3],
+    "source": article[4]
     }
 
 def get_related_articles(article_id):
@@ -36,7 +38,7 @@ def get_related_articles(article_id):
             FROM related_articles 
             WHERE source_id = ?1 OR target_id = ?1
             ORDER BY score DESC
-            LIMIT 3;
+            LIMIT 6;
         """
     result = conn.execute(query, (article_id,))
     articles_raw = result.fetchall()
@@ -48,7 +50,7 @@ def get_related_articles(article_id):
 def get_article(article_id):
     conn = get_connection()
     query = """
-    SELECT id, title, url 
+    SELECT id, title, url, summary, source
     FROM articles 
     WHERE id = ?
     LIMIT 1;
@@ -60,16 +62,18 @@ def get_article(article_id):
     return {
         "id": article[0],
         "title": article[1],
-        "url": article[2]
+        "url": article[2],
+        "summary": article[3],
+        "source": article[4]
     }
 
 def get_multiple_articles(article_ids):
     conn = get_connection()
     placeholders = ",".join(["?"] * len(article_ids))
-    query = f"SELECT id, title, url FROM articles WHERE id IN ({placeholders})"
+    query = f"SELECT id, title, url, summary, source FROM articles WHERE id IN ({placeholders})"
     result = conn.execute(query, article_ids)
     articles_raw = result.fetchall()
-    return [{"id": a[0], "title": a[1], "url": a[2]} for a in articles_raw]
+    return [{"id": a[0], "title": a[1], "url": a[2], "summary": a[3], "source": a[4]} for a in articles_raw]
 
 
 #print(get_random_recent_article())

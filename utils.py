@@ -5,7 +5,7 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from scraper import feed_extraction
+#from scraper import feed_extraction
 
 
 def log_error(string):
@@ -14,7 +14,7 @@ def log_error(string):
         f.write(string + " | " + timestamp)
 
 def clean_html(raw_html):
-    # noinspection PyArgumentList
+    raw_html = str(raw_html).replace("&nbsp;", " ").replace("\xa0", " ")
     clean_text = BeautifulSoup(raw_html, "html.parser").get_text(separator = " ", strip=True)
     clean_text = re.sub(r'\s+', ' ', clean_text).strip()
     return clean_text
@@ -28,7 +28,6 @@ def unblob_vector(vector):
     return unblobed_vector
 
 def vectorize_texts(texts): #uses a list
-    print(type(texts))
     model = SentenceTransformer('BAAI/bge-m3', local_files_only=True)
     output = model.encode(texts,batch_size=8, show_progress_bar=True)
     return output

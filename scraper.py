@@ -15,6 +15,3 @@ def feed_extraction(url): #extracts news rss entries
     feed = feedparser.parse(url)
     return feed.entries
 
-
-
-

@@ -10,7 +10,6 @@ def new_article_list():
         print("Parsing RSS feed for " + source)
         for entry in s.feed_extraction(url):
             if source == "Space.com" and u.exclude_entertainment(entry):
-                print(entry)
                 continue
             try:
                 article_data = read_rss_entry(entry, source)
@@ -26,7 +25,7 @@ def new_article_list():
 def read_rss_entry(entry,source): #extracts what we need from the rss entry
     utc_date = time.strftime('%Y-%m-%d %H:%M:%S', entry.published_parsed)
     return {
-        "title": entry.title,
+        "title": u.clean_html(entry.title),
         "source": source,
         "link": entry.link,
         "summary": u.clean_html(entry.summary),
@@ -104,9 +103,10 @@ def test_vectors():
 #        targets, similarities = (related_articles(lista[i]))
 #        db.set_related_vectors(ids[i], targets, similarities)
 
+def clean_titles():
 
 
 
-add_entries()
+#add_entries()
 #test_vectors()
 #update_all_vectors()

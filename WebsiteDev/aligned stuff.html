@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Test 2 </title>
+        <style>
+            :root {
+                --header_col:#001f66;
+                --orange:#ee7f00;
+                --background: #05436d;
+                --accent: #6366f1;
+                --bg-article: #1e293b;
+                --text-secondary: #94a3b8;
+            }
+            body {
+                background-color: var(--background);
+                margin: 0;
+                padding: 0;
+                font-family: sans-serif;
+            }
+            header {
+                background-color: var(--header_col);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            h2 {
+                color: #CCFF00;
+                text-align: center;
+                font-size: 2rem;
+                font-family: sans-serif;
+            }
+            h2 p {
+                color: #94a3b8;
+                font-size: 0.7rem;
+            }
+            .header-icon {
+                width: 50px;
+                height: 50px;
+                object-fit: contain;
+            }
+            h1 {
+                color: var(--orange);
+            }
+            .article-box {
+                text-align: center;
+                width: 100%;
+            }
+            .random-btn {
+                color: #94a3b8;
+                background-color: rgb(77, 1, 163);
+                font-size: 1rem;
+                font-weight: 600;
+                border-radius: 8px;
+                padding: 24px 48px;
+                border: none;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                margin-top: 0px;
+                margin-bottom: 10px;
+            }
+            .random-btn:hover {
+                background-color: #4f46e5; 
+                box-shadow: 0 0 15px rgba(100, 102, 241, 0.5);
+            }
+            .article-display{
+                background-color: var(--bg-article);
+                border: 1px solid #334155;
+                border-radius: 16px;
+                padding: 32px;
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.s3);
+                animation: fadeIn 0.4s ease-out;
+                max-width: 800px;
+                margin: auto;
+                margin-top: 10px;
+                color: #f8fafc;
+                text-align: left;
+                display: none;
+            }
+            .article-display h3 {
+                color: #CCFF00;
+                margin-top: 0;
+                font-size: 1.5rem;
+            }
+            .article-display p {
+                color: #94a3b8;
+                line-height: 1.6;
+            }
+            .main-article-card p {
+                color: var(--text-secondary);
+                line-height: 1.6;
+                font-size: 1.1rem;
+                margin: 0;
+            }
+            .main-article-card a {
+                color: var(--orange);
+                text-decoration: none;
+                font-size: 1rem;
+                display: inline-block;
+                margin-top: 12px;
+            }
+            .main-article-card a:hover {
+                text-decoration: underline;
+            }
+            .related-section {
+                max-width: 700px;
+                margin: 30px auto;
+                padding: 0 20px;
+                display: none;
+            }
+            .related-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+                gap: 16px;
+                align-items: start;
+            }
+            .related-card {
+                background-color: var(--bg-article);
+                border: 1px solid #334155;
+                border-radius: 12px;
+                padding: 16px;
+                color: #f8fafc;
+                cursor: pointer;
+                transition: background-color 0.2s ease, box-shadow 0.2s ease;
+                box-sizing: border-box;
+            }
+            .related-card:hover {
+                background-color: #243146;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+            .related-card summary {
+                list-style: none;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            .related-card summary::-webkit-details-marker {
+                display: none;
+            }
+            .related-card h4 {
+                margin: 0;
+                color: #CCFF00;
+                font-size: 1.1rem;
+                
+            }
+            .toggle-icon {
+                font-size: 0.8rem;
+                color: var(--text-secondary);
+                transition: transform 0.2s ease;
+            }
+            .related-card[open] .toggle-icon {
+                transform: rotate(180deg);
+            }
+            .card-content {
+                margin-top: 12px;
+                border-top: 1px solid #334155;
+                padding-top: 12px;
+                font-size: 0.95rem;
+            }
+            .card-content p {
+                color: #94a3b8;
+                line-height: 1.5;
+                margin-bottom: 10px;
+            }
+            .card-content a {
+                color: var(--orange);
+                text-decoration: none;
+                font-size: 0.9rem;
+            }
+            .card-content a:hover {
+                text-decoration: underline;
+            }
+            .article-source-text {
+                color: #ffffff;
+                font-size: 0.75rem;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                display: block;
+                margin-bottom: 4px;
+                opacity: 0.8;
+            }
+            .random-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                margin-top: 14px;
+            }
+
+            .source-signature {
+                color: #ffffff;
+                font-weight: 700;
+                font-size: 0.85rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <img src="RocketCat.png" class="header-icon">
+            <h1> SpacyNews </h1>
+            <img src="RocketCat.png" class="header-icon">
+        </header>
+        <h2>
+             Random Article <br>
+        </h2>
+        <div class="article-box" id="random-article-btn">
+            <button class="random-btn">Get a random article from the last 24hours!</button>
+        </div>
+        <div class="article-display" id="article-display"></div>
+        <div class="related-section">
+            <h2>Related Articles</h2>
+            <div class="related-grid" id="related-grid"></div>
+        </div>
+
+        <script>
+        document.getElementById('random-article-btn').addEventListener('click', () => {
+                const display = document.getElementById('article-display');
+                
+                // Force the box to show up now that the user clicked!
+                display.style.display = 'block'; 
+                display.innerHTML = '<div style="text-align:center;"><em>Praying that everything is working...</em></div>';
+
+            fetch('http://127.0.0.1:8000/articles/random')
+                .then(response => response.json())
+                .then(result => {
+                    if (result.status === "success") {
+                        display.innerHTML = `
+                        <article class="main-article-card">
+                            <h3>${result.data.title}</h3>
+                            <p>${result.data.summary || 'Something went wrong. WHERE IS THE SUMMARY'}</p>
+                            <div class="random-footer">
+                                <a href="${result.data.url || '#'}" target="_blank">Read full article</a>
+                                <span class="source-signature">${result.data.source || 'External'}</span>
+                            </div>
+                        </article>
+                    `;
+                        const articleId = result.data.id; 
+                        return fetch(`http://127.0.0.1:8000/articles/${articleId}/related`);
+                    }
+                })
+                .then(response => {
+                    if (response) return response.json();
+                })
+                .then(relatedResult => {
+                    if (relatedResult) {
+                        if (relatedResult.status === "success") {
+                            renderRelatedArticles(relatedResult.data);
+                        } else if (relatedResult.status === "no_matches") {
+                            renderRelatedArticles([]);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                    display.innerHTML = `
+                        <div style="background: #451a03; border: 1px solid #9a3412; padding: 16px; border-radius: 8px; color: #f97316; text-align: center;">
+                            <strong>Local System Unreachable:</strong> Execute 'fastapi dev main.py' via console.
+                        </div>`;
+                });
+        });
+
+        function renderRelatedArticles(articlesArray) {
+            const grid = document.getElementById('related-grid');
+            
+            grid.innerHTML = '';
+
+            if (!articlesArray || articlesArray.length === 0) {
+                document.querySelector('.related-section').style.display = 'none';
+                return; 
+            }
+
+            document.querySelector('.related-section').style.display = 'block';
+
+            articlesArray.forEach(article => {
+                const cardHTML = `
+                    <details class="related-card">
+                        <summary>
+                            <span class="article-source-text">${article.source || 'External'}</span>
+                            <h4>${article.title || 'Untitled Space News'}</h4>
+                        </summary>
+                        <div class="card-content">
+                            <p>${article.summary || 'No description available.'}</p>
+                            <a href="${article.url || '#'}" target="_blank">Read full article</a>
+                        </div>
+                    </details>
+                `;
+                grid.insertAdjacentHTML('beforeend', cardHTML);
+            });
+
+            const cards = Array.from(grid.querySelectorAll('.related-card'));
+            //they will be aligned even if I have to use 10k lines I swear
+            if (cards.length === 0) return;
+            //screw frontend, what a waste
+            const gridWidth = grid.offsetWidth;
+            const cardWidth = cards[0].offsetWidth;
+            const columns = Math.max(1, Math.floor(gridWidth / cardWidth));
+
+            for (let i = 0; i < cards.length; i += columns) { 
+                const rowCards = cards.slice(i, i + columns);
+                
+                let maxRowHeight = 0;
+                rowCards.forEach(card => {
+                    if (card.offsetHeight > maxRowHeight) {
+                        maxRowHeight = card.offsetHeight;
+                    }
+                });
+
+                rowCards.forEach(card => {
+                    card.style.height = maxRowHeight + 'px';
+                    card.dataset.initialHeight = maxRowHeight + 'px';
+                });
+            }
+
+            cards.forEach(card => {
+                card.addEventListener('toggle', () => {
+                    if (card.open) {
+                        card.style.height = 'auto';
+                    } else {
+                        card.style.height = card.dataset.initialHeight;
+                    }
+                });
+            });
+        }
+        </script>
+    </body>
+</html>

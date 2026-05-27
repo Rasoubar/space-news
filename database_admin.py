@@ -106,11 +106,33 @@ def set_related_vectors(article,targets,similarities,conn,cursor):
                     ''', (article, targets[i], similarities[i]))
     conn.commit()
 
-
 def clean_related(): #used in early stage
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute('''DELETE FROM related_articles WHERE source_id <= target_id''')
     conn.commit()
     conn.close()
+
+def clean_all_titles(): #some formating was wrong, needed to clean all of them
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id, title FROM articles")
+    rows = cursor.fetchall()
+    updated_count = 0
+
+    for row in rows:
+        article_id, old_title = row
+        new_title = u.clean_html(old_title)
+
+        if new_title != old_title:
+            cursor.execute(
+                "UPDATE articles SET title = ? WHERE id = ?",
+                (new_title, article_id)
+            )
+            updated_count += 1
+
+    conn.commit()
+    conn.close()
+    print(f"Cleaned {updated_count} titles.")
 

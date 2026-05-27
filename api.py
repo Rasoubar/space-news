@@ -52,3 +52,4 @@ def related_articles(article_id: int):
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
 #fastapi dev api.py --host 0.0.0.0
+

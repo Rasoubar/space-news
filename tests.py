@@ -18,4 +18,3 @@ def test_ivy():
     result = calc_similarity(vector1, [vector2])
     print(result)
 
-test_ivy()
