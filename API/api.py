@@ -2,12 +2,12 @@ import database_read as db_r
 from fastapi import FastAPI, HTTPException
 
 from fastapi.middleware.cors import CORSMiddleware #for testing
-origins = ["https://spacynews.pages.dev/", "http://127.0.0.1:5500" ]
+origins = ["https://spacynews.pages.dev", "http://127.0.0.1:5500" ]
 
 app = FastAPI()
 app.add_middleware( #for testing
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
