@@ -217,7 +217,7 @@
                 display.style.display = 'block'; 
                 display.innerHTML = '<div style="text-align:center;"><em>Praying that everything is working...</em></div>';
 
-            fetch('http://127.0.0.1:8000/articles/random')
+            fetch('https://spacynewsapi.onrender.com/articles/random')
                 .then(response => response.json())
                 .then(result => {
                     if (result.status === "success") {
@@ -232,7 +232,7 @@
                         </article>
                     `;
                         const articleId = result.data.id; 
-                        return fetch(`http://127.0.0.1:8000/articles/${articleId}/related`);
+                        return fetch(`https://spacynewsapi.onrender.com/articles/${articleId}/related`);
                     }
                 })
                 .then(response => {

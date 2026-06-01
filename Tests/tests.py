@@ -1,7 +1,7 @@
-from config import feeds
-from scraper import feed_extraction
-from engine import read_rss_entry
-from utils  import vectorize_texts, calc_similarity, exclude_author
+from Scraper.config import feeds
+from Scraper.scraper import feed_extraction
+from Scraper.engine import read_rss_entry
+from Scraper.utils  import vectorize_texts, calc_similarity, exclude_author
 
 
 def test_date():
