@@ -9,7 +9,7 @@ def new_article_list():
     for source,url in c.feeds.items():
         print("Parsing RSS feed for " + source)
         for entry in s.feed_extraction(url):
-            if source == "Space.com" and u.exclude_entertainment(entry):
+            if source == "Space.com" and (u.exclude_entertainment(entry) or u.exclude_author(entry)):
                 continue
             try:
                 article_data = read_rss_entry(entry, source)
@@ -103,10 +103,7 @@ def test_vectors():
 #        targets, similarities = (related_articles(lista[i]))
 #        db.set_related_vectors(ids[i], targets, similarities)
 
-def clean_titles():
 
-
-
-#add_entries()
+add_entries()
 #test_vectors()
 #update_all_vectors()

@@ -9,4 +9,3 @@ def main():
             print(entry.published)
             print(entry.title)
 
-main()

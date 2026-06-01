@@ -69,7 +69,7 @@
                 border: 1px solid #334155;
                 border-radius: 16px;
                 padding: 32px;
-                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.s3);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
                 animation: fadeIn 0.4s ease-out;
                 max-width: 800px;
                 margin: auto;
@@ -124,39 +124,33 @@
                 cursor: pointer;
                 transition: background-color 0.2s ease, box-shadow 0.2s ease;
                 box-sizing: border-box;
+                overflow: hidden;
             }
             .related-card:hover {
                 background-color: #243146;
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             }
-            .related-card summary {
-                list-style: none;
+            .related-card .card-summary {
                 font-weight: bold;
-                cursor: pointer;
-            }
-            .related-card summary::-webkit-details-marker {
-                display: none;
             }
             .related-card h4 {
                 margin: 0;
                 color: #CCFF00;
                 font-size: 1.1rem;
-                
-            }
-            .toggle-icon {
-                font-size: 0.8rem;
-                color: var(--text-secondary);
-                transition: transform 0.2s ease;
-            }
-            .related-card[open] .toggle-icon {
-                transform: rotate(180deg);
             }
             .card-content {
+                display: none;
                 margin-top: 12px;
                 border-top: 1px solid #334155;
                 padding-top: 12px;
                 font-size: 0.95rem;
             }
+            
+            /* Toggled state handled smoothly via class */
+            .related-card.is-open .card-content {
+                display: block;
+            }
+            
             .card-content p {
                 color: #94a3b8;
                 line-height: 1.5;
@@ -205,9 +199,11 @@
         <h2>
              Random Article <br>
         </h2>
+        
         <div class="article-box">
-            <button  id="random-article-btn" class="random-btn">Get a random article from the last 24hours!</button>
+            <button id="random-article-btn" class="random-btn">Get a random article from the last 24hours!</button>
         </div>
+        
         <div class="article-display" id="article-display"></div>
         <div class="related-section">
             <h2>Related Articles</h2>
@@ -218,7 +214,6 @@
         document.getElementById('random-article-btn').addEventListener('click', () => {
                 const display = document.getElementById('article-display');
                 
-                // Force the box to show up now that the user clicked!
                 display.style.display = 'block'; 
                 display.innerHTML = '<div style="text-align:center;"><em>Praying that everything is working...</em></div>';
 
@@ -275,51 +270,63 @@
 
             articlesArray.forEach(article => {
                 const cardHTML = `
-                    <details class="related-card">
-                        <summary>
+                    <div class="related-card">
+                        <div class="card-summary">
                             <span class="article-source-text">${article.source || 'External'}</span>
                             <h4>${article.title || 'Untitled Space News'}</h4>
-                        </summary>
+                        </div>
                         <div class="card-content">
                             <p>${article.summary || 'No description available.'}</p>
                             <a href="${article.url || '#'}" target="_blank">Read full article</a>
                         </div>
-                    </details>
+                    </div>
                 `;
                 grid.insertAdjacentHTML('beforeend', cardHTML);
             });
 
             const cards = Array.from(grid.querySelectorAll('.related-card'));
-            //they will be aligned even if I have to use 10k lines I swear
             if (cards.length === 0) return;
-            //screw frontend, what a waste
-            const gridWidth = grid.offsetWidth;
-            const cardWidth = cards[0].offsetWidth;
-            const columns = Math.max(1, Math.floor(gridWidth / cardWidth));
 
-            for (let i = 0; i < cards.length; i += columns) { 
-                const rowCards = cards.slice(i, i + columns);
-                
-                let maxRowHeight = 0;
-                rowCards.forEach(card => {
-                    if (card.offsetHeight > maxRowHeight) {
-                        maxRowHeight = card.offsetHeight;
-                    }
+            // Keeps adjacent cards locked, allows opened card to grow
+            function runHeightCalculations() {
+                const gridWidth = grid.offsetWidth;
+                const cardWidth = cards[0].offsetWidth;
+                const columns = Math.max(1, Math.floor(gridWidth / cardWidth));
+
+                // Step 1: Temporarily clear inline heights to calculate fresh real values
+                cards.forEach(card => {
+                    card.style.height = 'auto';
                 });
 
-                rowCards.forEach(card => {
-                    card.style.height = maxRowHeight + 'px';
-                    card.dataset.initialHeight = maxRowHeight + 'px';
-                });
+                //goes trough each row by kinda picking the 1st card of each
+                for (let i = 0; i < cards.length; i += columns) { 
+                    const rowCards = cards.slice(i, i + columns); //rowCards "holds" all the cars in that row
+                    
+                    
+                    let maxClosedHeight = 0;
+                    rowCards.forEach(card => {
+                        if (!card.classList.contains('is-open') && card.offsetHeight > maxClosedHeight) {
+                            maxClosedHeight = card.offsetHeight; // if the card is closed and bigger the current biggest closed one, it's size becomes the size for that row
+                        }
+                    });
+
+                    rowCards.forEach(card => {
+                        if (card.classList.contains('is-open')) {
+                            card.style.height = 'auto';  // card is open -> fly free 
+                        } else {
+                            card.style.height = maxClosedHeight + 'px'; // card is not open -> your height is the max height for the row
+                        }
+                    });
+                }
             }
 
+            runHeightCalculations();
+
             cards.forEach(card => {
-                card.addEventListener('toggle', () => {
-                    if (card.open) {
-                        card.style.height = 'auto';
-                    } else {
-                        card.style.height = card.dataset.initialHeight;
-                    }
+                card.addEventListener('click', (event) => {
+                    if (event.target.tagName === 'A') return;
+                    card.classList.toggle('is-open');
+                    runHeightCalculations(); 
                 });
             });
         }

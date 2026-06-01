@@ -1,7 +1,3 @@
-import os
-from dotenv import load_dotenv
-
-#db_path = "space-news.db"
 
 feeds = {"NASA":"https://www.nasa.gov/rss/dyn/breaking_news.rss",
         "ESA":"http://www.esa.int/rssfeed/Our_Activities/Space_Science",
@@ -14,7 +10,3 @@ feeds = {"NASA":"https://www.nasa.gov/rss/dyn/breaking_news.rss",
 #arxiv astropyshics: https://arxiv.org/rss/astro-ph  , very cool, hopefully implement later
 
 model_name = "BAAI/bge-m3"
-
-load_dotenv()
-TURSO_URL = os.getenv("TURSO_DB")
-TURSO_TOKEN = os.getenv("TURSO_TOKEN")

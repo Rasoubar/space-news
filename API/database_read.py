@@ -1,6 +1,17 @@
-from database_core import get_connection
 from datetime import datetime, timedelta
+import os
+from dotenv import load_dotenv
+import libsql
 
+load_dotenv()
+TURSO_URL = os.getenv("TURSO_DB")
+TURSO_TOKEN = os.getenv("TURSO_READ_TOKEN")
+
+def get_connection():
+    conn = libsql.connect(
+        database = TURSO_URL,
+        auth_token = TURSO_TOKEN)
+    return conn
 
 def get_random_recent_article():
     cutoff_date = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')

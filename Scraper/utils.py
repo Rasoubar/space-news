@@ -57,3 +57,7 @@ def exclude_entertainment(entry): #excludes "entertainment" categories (rn for s
                 return True
     return False
 
+def exclude_author(entry):
+    if entry.author == "Paul Brett":
+        return True
+    return False

@@ -6,10 +6,10 @@ from fastapi.middleware.cors import CORSMiddleware #for testing
 app = FastAPI()
 app.add_middleware( #for testing
     CORSMiddleware,
-    allow_origins=["*"],      # Allows any local file to send requests
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],      # Allows all standard methods (GET, POST, etc.)
-    allow_headers=["*"],      # Allows all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/articles/random")
@@ -40,7 +40,6 @@ def article(article_id: int):
 def related_articles(article_id: int):
     try:
         articles = db_r.get_related_articles(article_id)
-        print(articles)
         if isinstance(articles, dict) and "error" in articles:
             return {"status": "no_matches", "message": articles["error"], "data": []}
         if not articles:
@@ -51,5 +50,5 @@ def related_articles(article_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
-#fastapi dev api.py --host 0.0.0.0
+#fastapi dev API/api.py --host 0.0.0.0
 
