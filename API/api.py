@@ -7,7 +7,7 @@ origins = ["https://spacynews.pages.dev/", "http://127.0.0.1:5500" ]
 app = FastAPI()
 app.add_middleware( #for testing
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -4,6 +4,7 @@ space-news.db
 *.sqlite
 #tests
 Tests
+Unused Page Options
 #py cache
 __pycache__/
 *.pyc
