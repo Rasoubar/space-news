@@ -7,7 +7,7 @@ origins = ["https://spacynews.pages.dev/", "http://127.0.0.1:5500" ]
 app = FastAPI()
 app.add_middleware( #for testing
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,6 +50,4 @@ def related_articles(article_id: int):
         raise http_e
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
-
-#fastapi dev API/api.py --host 0.0.0.0
 
