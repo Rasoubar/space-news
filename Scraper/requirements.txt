@@ -1,0 +1,9 @@
+beautifulsoup4==4.14.3
+cloudscraper==1.2.71
+feedparser==6.0.12
+libsql==0.1.11
+numpy==2.4.6
+python-dotenv==1.2.2
+scikit_learn==1.9.0
+sentence_transformers==5.4.1
+trafilatura==2.0.0
