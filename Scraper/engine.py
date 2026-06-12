@@ -42,7 +42,8 @@ def entries_to_add():
     return to_add
 
 def add_entries():
-        entries = entries_to_add()
+        entries_raw = entries_to_add()
+        entries = [entry for entry in entries_raw if entry['text'] is not None]
         print(f'{len(entries)} entries selected')
         if len(entries)>0:
             entries = sorted(entries, key=lambda x: x["date_parsed"])
