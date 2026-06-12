@@ -57,7 +57,7 @@ def exclude_entertainment(entry): #excludes "entertainment" categories (rn for s
                 return True
     return False
 
+
 def exclude_author(entry):
-    if entry.author == "Paul Brett":
-        return True
-    return False
+    deal_authors = {"paul brett", "harry bennet"}
+    return entry.author.strip().lower() in deal_authors
