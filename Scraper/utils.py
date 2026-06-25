@@ -57,7 +57,12 @@ def exclude_entertainment(entry): #excludes "entertainment" categories (rn for s
                 return True
     return False
 
-
 def exclude_author(entry):
     deal_authors = {"paul brett", "harry bennet"}
     return entry.author.strip().lower() in deal_authors
+
+def exclude_by_link(entry):
+    link = entry.get('link')
+    exclusions = ["https://www.space.com/space-exploration/launches-spacecraft"]
+    link_cleaned = link.strip().lower()
+    return any(forbidden.lower() in link_cleaned for forbidden in exclusions)

@@ -9,7 +9,7 @@ def new_article_list():
     for source,url in c.feeds.items():
         print("Parsing RSS feed for " + source)
         for entry in s.feed_extraction(url):
-            if source == "Space.com" and (u.exclude_entertainment(entry) or u.exclude_author(entry)):
+            if source == "Space.com" and (u.exclude_entertainment(entry) or u.exclude_author(entry) or u.exclude_by_link(entry)):
                 continue
             try:
                 article_data = read_rss_entry(entry, source)
