@@ -25,7 +25,6 @@ def get_random_recent_article():
         LIMIT 1;
     """
 
-    # 3. Execute and return
     result = conn.execute(query, (cutoff_date,))
     article = result.fetchone()
     if article is None:
