@@ -1,4 +1,4 @@
-fastapi
-libsql
-python-dotenv
+fastapi==0.136.3
+libsql==0.1.11
+python-dotenv==1.2.2
 uvicorn
