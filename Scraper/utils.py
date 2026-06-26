@@ -58,7 +58,7 @@ def exclude_entertainment(entry): #excludes "entertainment" categories (rn for s
     return False
 
 def exclude_author(entry):
-    deal_authors = {"paul brett", "harry bennet"}
+    deal_authors = {"paul brett", "harry bennet", "harry bennett"}
     return entry.author.strip().lower() in deal_authors
 
 def exclude_by_link(entry):
