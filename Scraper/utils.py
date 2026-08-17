@@ -55,14 +55,16 @@ def exclude_entertainment(entry): #excludes "entertainment" categories (rn for s
             term = tag.get('term', '')
             if term and term.lower().strip() == 'entertainment':
                 return True
+            if term and term.lower().strip() == '':
+                return True
     return False
 
 def exclude_author(entry):
-    deal_authors = {"paul brett", "harry bennet", "harry bennett", "chris mcmullen", "tantse walter", "jase parnell-brookes", "gemma lavender"}
+    deal_authors = {"paul brett", "harry bennet", "harry bennett", "chris mcmullen", "tantse walter", "jase parnell-brookes", "gemma lavender", "kim snaith", "grace dean"}
     return entry.author.strip().lower() in deal_authors
 
 def exclude_by_link(entry):
     link = entry.get('link')
-    exclusions = ["https://www.space.com/space-exploration/launches-spacecraft","https//www.space.com/stargazing/skywatching-kit"]
+    exclusions = ["https://www.space.com/space-exploration/launches-spacecraft","https://www.space.com/stargazing/skywatching-kit"]
     link_cleaned = link.strip().lower()
     return any(forbidden.lower() in link_cleaned for forbidden in exclusions)
