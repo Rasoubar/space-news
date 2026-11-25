@@ -24,12 +24,18 @@ def new_article_list():
 
 def read_rss_entry(entry,source): #extracts what we need from the rss entry
     utc_date = time.strftime('%Y-%m-%d %H:%M:%S', entry.published_parsed)
+    title = u.clean_html(entry.title)
+    summary = u.clean_html(entry.summary)
+    text = s.extract_text(entry.link)
+    if text is None: #site blocked us, keep the article with title + summary as its text
+        text = u.fallback_text(title, summary)
+        u.log_error(f'Page blocked, saved with summary as text: {entry.link}')
     return {
-        "title": u.clean_html(entry.title),
+        "title": title,
         "source": source,
         "link": entry.link,
-        "summary": u.clean_html(entry.summary),
-        "text": s.extract_text(entry.link),
+        "summary": summary,
+        "text": text,
         "date_string": utc_date,
         "date_parsed": entry.published_parsed #for sorting later
     }

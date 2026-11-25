@@ -11,13 +11,17 @@ from sklearn.metrics.pairwise import cosine_similarity
 def log_error(string):
     timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
     with open("error_log.txt", "a", encoding="utf-8") as f:
-        f.write(string + " | " + timestamp)
+        f.write(string + " | " + timestamp + "\n")
 
 def clean_html(raw_html):
     raw_html = str(raw_html).replace("&nbsp;", " ").replace("\xa0", " ")
     clean_text = BeautifulSoup(raw_html, "html.parser").get_text(separator = " ", strip=True)
     clean_text = re.sub(r'\s+', ' ', clean_text).strip()
     return clean_text
+
+def fallback_text(title, summary): #used when the article page can't be downloaded
+    summary = re.sub(r'The post .* appeared first on .*$', '', summary).strip() #WordPress feed boilerplate
+    return f'{title}. {summary}'.strip()
 
 def blob_vector(vector):
     blobbed_vector = vector.tobytes()
